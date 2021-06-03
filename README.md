@@ -30,6 +30,6 @@ The `commands.txt` file contains the list of commands which is needed for the st
 3. `event <task> /at <datetime>` - Adds an `Event` task with <task> as a description and <datetime> as the specific start and end `datetime`.
 4. `exit` - Exits the Task Manager.
 5. `list` - Lists out all the tasks that have been added, indicating their status.
-6. `delete <index>` - Deletes task at <index> number when listed out using `list`.
-7. `done <index>` - Marks the task at <index> number when listed out using `list` as done.
+6. `delete <task_type> <index>` - Deletes task at <index> number of type <task_type> when listed out using `list`. <task_type> can be of values `T` for `ToDo`, `D` for `Deadline` and `E` for `Event`.
+7. `done <task_type> <index>` - Marks the task at <index> number of type <task_type> when listed out using `list` as done.
 8. `save` - Saves the tasks data in `task.txt`.
