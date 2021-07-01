@@ -58,7 +58,7 @@ def add():
     if description == "":
         res = "left_blank"
     elif request.args['type'] == 'ToDo':
-        ui.add(description,"ToDo")
+        res = ui.add(description,"ToDo")
     elif request.args['type'] == 'Deadline':
         deadline = request.args['dl']
         res = (ui.add(description, "Deadline", deadline))

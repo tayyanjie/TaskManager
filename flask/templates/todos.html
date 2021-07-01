@@ -56,7 +56,7 @@
 
 {% for dict_item in todos %}
     {% for task_type in dict_item %}
-        <h2>{{task_type}}</h2>
+        <h2><b>{{task_type}}</b></h2>
         {% if dict_item[task_type]|length == 0 %}
             No {{task_type}} available.
         {% else %}
@@ -81,7 +81,7 @@
             {% elif task_type=='Deadline' %}
                 Description:
                 <input name="description_Deadline">
-                Deadline:
+                Deadline <i>(Format: dd/mm/yyyy hh:mm):</i>
                 <input name="deadline_Deadline"><br>
                 <input type="submit", value = "add {{task_type}}" name="add Deadline">
             {% else %}
