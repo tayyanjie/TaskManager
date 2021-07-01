@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Task Manager &lt;&excl;-- omit in toc --&gt;</title>
+        <style>
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="task-manager-">Task Manager <!-- omit in toc --></h1>
+<p>This repository contains the code for a simple Python Task Manager used to keep track of tasks.</p>
+<p>The idea of the task manager is referenced from <a href="https://nus-cs2103-ay2021s1.github.io/website/se-book-adapted/projectDuke/">CS2103's Project Duke</a>.</p>
+<h2 id="table-of-contents-">Table of Contents <!-- omit in toc --></h2>
+<ul>
+<li><a href="#running-the-task-manager">Running the Task Manager</a></li>
+<li><a href="#saving-data">Saving Data</a></li>
+<li><a href="#task-types">Task Types</a></li>
+<li><a href="#basic-commands">Basic Commands:</a></li>
+</ul>
+<h2 id="running-the-task-manager">Running the Task Manager</h2>
+<p>To run the program, run the <code>run.py</code> file.</p>
+<h2 id="saving-data">Saving Data</h2>
+<p>The tasks added while using the program can be saved in a txt file (<code>task.txt</code>) which is loaded when Task Manager upon running <code>run.py</code>.</p>
+<p>An initial filled sample <code>task.txt</code> is provided in the repository.</p>
+<h2 id="task-types">Task Types</h2>
+<p>There are 3 basic task types:</p>
+<ol>
+<li><code>ToDo</code> - Similar to <code>Task</code>.</li>
+<li><code>Deadline</code> - Similar to <code>Task</code> but with a <code>datetime</code> as a deadline.</li>
+<li><code>Event</code> - Similar to <code>Task</code> but with a specific start and end <code>datetime</code>.</li>
+</ol>
+<h2 id="basic-commands">Basic Commands:</h2>
+<p>The <code>commands.txt</code> file contains the list of commands which is needed for the startup of the Task Manager. <strong>Do not delete the file and ensure that the <code>commands.txt</code> file remains in the directory</strong>.</p>
+<ol>
+<li><code>todo &lt;task&gt;</code> - Adds a <code>ToDo</code> task with <task> as a description.</li>
+<li><code>deadline &lt;task&gt; /by &lt;deadline&gt;</code> - Adds a <code>Deadline</code> task with <task> as a description and <deadline> as the deadline. <deadline> must be in the format: <code>yyyy-mm-dd hh:mm:ss</code></li>
+<li><code>event &lt;task&gt; /at &lt;datetime&gt;</code> - Adds an <code>Event</code> task with <task> as a description and <datetime> as the specific start and end <code>datetime</code>.</li>
+<li><code>exit</code> - Exits the Task Manager.</li>
+<li><code>list</code> - Lists out all the tasks that have been added, indicating their status.</li>
+<li><code>delete &lt;task_type&gt; &lt;index&gt;</code> - Deletes task at <index> number of type &lt;task_type&gt; when listed out using <code>list</code>. &lt;task_type&gt; can be of values <code>T</code> for <code>ToDo</code>, <code>D</code> for <code>Deadline</code> and <code>E</code> for <code>Event</code>.</li>
+<li><code>done &lt;task_type&gt; &lt;index&gt;</code> - Marks the task at <index> number of type &lt;task_type&gt; when listed out using <code>list</code> as done.</li>
+<li><code>save</code> - Saves the tasks data in <code>task.txt</code>.</li>
+<li><code>help</code> - Prints out command list.</li>
+</ol>
+
+    </body>
+    </html>

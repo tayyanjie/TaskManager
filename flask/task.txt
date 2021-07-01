@@ -2,4 +2,5 @@ T, 1, eat
 T, 0, sleep
 D, 1, web scrap, 09/06/2021 12:00
 D, 0, train model, 01/07/2021 14:00
+D, 0, validate model, 02/07/2021 18:00
 E, 0, meeting, Thursday 2-4pm

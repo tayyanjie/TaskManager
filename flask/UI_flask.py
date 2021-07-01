@@ -1,4 +1,4 @@
-import tasks
+import tasks_flask as tasks
 import re
 from os import listdir
 
@@ -77,7 +77,7 @@ class UI:
 
     def welcome(self):
         """Prints out initial welcome message when the app is launched"""
-        print("Hi, what can I do for you today?")
+        return "Hi, what can I do for you today?"
 
     def getCommand(self):
         """Obtains user command input"""
@@ -85,33 +85,31 @@ class UI:
     
     def help(self):
         """Prints a list of commands available"""
-        print(self.commands)
+        return self.commands
         
     def list_todos(self):
         """List out all the tasks that have been added into the app"""
+        res = {}
+        has_task = False
         for task_type in self.task_list:
             if self.task_list[task_type]:
-                break
-            print("No tasks added yet, please add a task!")
-            return
+                has_task = True
+            res[task_type] = []
+        if not has_task:
+            return res
 
         for task_type in self.task_list:
             counter = 1
-            if not self.task_list[task_type]:
-                print(f"There is no tasks that are of type {task_type}")
-            else:
-                print(task_type)
             for task in self.task_list[task_type]:
-                task.showTask(counter)
+                res[task_type].append(task.showTask(counter))
                 counter += 1
-            print(25*'-')
+        return res
 
 
     def add(self, description, type = "Task", deadline=None):
         """Adds a task with description"""
         if type not in ['Task', 'ToDo', 'Deadline', 'Event']:
-            print('Invalid task type added.')
-            return
+            return 'Invalid task type added.'
         
         # Check for Task
         elif type == "Task":
@@ -125,49 +123,54 @@ class UI:
 
         # Check for Deadline
         elif type == "Deadline" and deadline != None:
-            self.task_list['Deadline'].append(tasks.Deadline(description, deadline))
-            self.saved = False
-        
+            try:
+                self.task_list['Deadline'].append(tasks.Deadline(description, deadline))
+                self.saved = False
+            except:
+                return "Invalid format added"
+            
         # Check for Event
         elif type == "Event" and deadline != None:
-            self.task_list['Event'].append(tasks.Event(description, deadline))
-            self.saved = False
+            try:
+                self.task_list['Event'].append(tasks.Event(description, deadline))
+                self.saved = False
+            except:
+                return "Invalid format added"
         else:
-            print("Invalid task added.")
-            return
-        print(f"added {type} {description}")
-        print(f"Total number of tasks in list: {self.total_tasks}")
-        print(f"Number of tasks completed: {self.num_done}")
+            return "Invalid task added."
+        res = ""
+        res += f"added {type} {description}" + "\n"
+        #res += f"Total number of tasks in list: {self.total_tasks} \n" 
+        #res += f"Number of tasks completed: {self.num_done}"
+        return res
         
     
     def done(self, ind, task_type):
         """Marks the task at a particular index as done"""
         if not self.task_list[task_type] or ind > len(self.task_list[task_type]):
-            print("There is no such task.")
-            return
+            return ("There is no such task.")
         task_list = self.task_list[task_type]
         if not task_list[ind-1].done():
             task_list[ind-1].markDone()
-            print("The following task has been marked done:")
             description = task_list[ind-1].get_description()
-            done = task_list[ind-1].get_status_icon()
-            print(f"[{done}] {description}")
+            label = task_list[ind-1].label
+            
             self.num_done += 1
             self.saved = False
+            return f"The task [{label}] {description} has been marked done"
         else:
-            print("The task has already been marked done.")
+            return ("The task has already been marked done.")
         
 
     def delete(self, ind, task_type):
         """Deletes the task at a particular index"""
         if ind > len(self.task_list[task_type]):
-            print("Task index does not exist.")
-            return
-        print("The following task has been deleted:")
+            return "Task index does not exist."
+        res = "The following task has been deleted: "
         task = self.task_list[task_type][ind-1]
         description = task.get_description()
-        done = task.get_status_icon()
-        print(f"[{done}] {description}")
+        label = task.label
+        res += f"[{label}] {description}"
         self.saved = False
 
         # removes task from task list
@@ -175,13 +178,19 @@ class UI:
         if task.done:
             self.num_done -= 1
         self.total_tasks -= 1
-        print(f"Total number of tasks in list: {self.total_tasks}")
-        print(f"Number of tasks completed: {self.num_done}")
+        #res += f"\nTotal number of tasks in list: {self.total_tasks}"
+        #res += f"\nNumber of tasks completed: {self.num_done}"
+        return res
+    
+    def delete_all(self, task_type):
+        for type in self.task_list:
+            self.task_list[type] = []
+        self.save = False
+        return f"Deleted {task_type} tasks."
     
     def get_summary(self):
         """Prints out summary statistics regarding current stored taskes"""
-        print(f"Total number of tasks in list: {self.total_tasks}")
-        print(f"Number of tasks completed: {self.num_done}")
+        return f"Total number of tasks in list: {self.total_tasks}\nNumber of tasks completed: {self.num_done}"
         
     def parseCommand(self, command):
         """Reads in user's command to do appropriate action"""

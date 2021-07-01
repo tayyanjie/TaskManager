@@ -26,10 +26,11 @@ There are 3 basic task types:
 ## Basic Commands:
 The `commands.txt` file contains the list of commands which is needed for the startup of the Task Manager. **Do not delete the file and ensure that the `commands.txt` file remains in the directory**.
 1. `todo <task>` - Adds a `ToDo` task with <task> as a description.
-2. `deadline <task> /by <deadline>` - Adds a `Deadline` task with <task> as a description and <deadline> as the deadline.
+2. `deadline <task> /by <deadline>` - Adds a `Deadline` task with <task> as a description and <deadline> as the deadline. <deadline> must be in the format: `yyyy-mm-dd hh:mm:ss`
 3. `event <task> /at <datetime>` - Adds an `Event` task with <task> as a description and <datetime> as the specific start and end `datetime`.
 4. `exit` - Exits the Task Manager.
 5. `list` - Lists out all the tasks that have been added, indicating their status.
 6. `delete <task_type> <index>` - Deletes task at <index> number of type <task_type> when listed out using `list`. <task_type> can be of values `T` for `ToDo`, `D` for `Deadline` and `E` for `Event`.
 7. `done <task_type> <index>` - Marks the task at <index> number of type <task_type> when listed out using `list` as done.
 8. `save` - Saves the tasks data in `task.txt`.
+9. `help` - Prints out command list.

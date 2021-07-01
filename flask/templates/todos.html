@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Task Manager &lt;&excl;-- omit in toc --&gt;</title>
+        <style>
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+
+.alert {
+        padding: 8px;
+        background-color:rgb(110, 236, 78);
+        color: darkgreen;
+        border-style:solid;
+        border-color:black;
+      }
+.error {
+        padding: 8px;
+        background-color:rgb(238, 17, 10);
+        color: darkred;
+        border-style:solid;
+        border-color:black;
+      }
+</style>
+        
+        
+        
+    </head>
+    
+    <body class="vscode-body vscode-light">
+        <h1 id="task-manager-">Task Manager <!-- omit in toc --></h1>
+</ul>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="{{category}}" role="alert">
+                <span>{{ message }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
+
+{% for dict_item in todos %}
+    {% for task_type in dict_item %}
+        <h2>{{task_type}}</h2>
+        {% if dict_item[task_type]|length == 0 %}
+            No {{task_type}} available.
+        {% else %}
+            {% for task in dict_item[task_type] %}
+                {{task[1]}}. [{{task[2]}}] {{task[3]}} {{task[4]}} {{task[5]}}
+                <form method="post">
+                    {% set x = task[0] + task[1] %}
+                    <input type="submit" name="button" id={{x}} value="done {{x}}">
+                    <input type="submit" name="button" id={{x}} value="del {{x}}">
+                </form>
+            {% endfor %}
+            
+            
+        {% endif %}
+        <form method="POST">
+            <br>
+            <b>Add {{task_type}}</b><br>
+            {% if task_type== 'ToDo' %}
+                Description:
+                <input name="description_ToDo"><br>
+                <input type="submit", value = "add {{task_type}}" name="add ToDo">
+            {% elif task_type=='Deadline' %}
+                Description:
+                <input name="description_Deadline">
+                Deadline:
+                <input name="deadline_Deadline"><br>
+                <input type="submit", value = "add {{task_type}}" name="add Deadline">
+            {% else %}
+                Description:
+                <input name="description_Event">
+                Deadline:
+                <input name="deadline_Event"><br>
+                <input type="submit", value = "add {{task_type}}" name="add Event">
+            {% endif %}
+        </form>
+    {% endfor %}
+{% endfor %}
+<br>
+<form method="post">
+    <input type = "submit" name="button" value = "save" />
+    <input type = "submit" name="button" value = "reset" />
+    <input type = "submit" name="button" value = "delete all tasks" />
+</form>

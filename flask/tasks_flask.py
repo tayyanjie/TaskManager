@@ -10,7 +10,8 @@ class Task:
         return "\u2713" if self.isDone else "\u2718"
     def showTask(self, num):
         """Prints out the task description and whether it is done"""
-        print(str(num), f"[{self.label}][{self.get_status_icon()}] {self.description}")
+        #return str(num) + ". " + f"[{self.label}][{self.get_status_icon()}] {self.description}"
+        return ("ToDo", str(num), self.label, self.get_status_icon(), self.description)
     def markDone(self):
         """Marks the task as done"""
         self.isDone = True
@@ -34,8 +35,8 @@ class Deadline(Task):
         self.label = 'D'
     def showTask(self, num):
         """Prints out the task description and whether it is done"""
-        print(str(num), 
-        f"[{self.label}][{self.get_status_icon()}] {self.description} (by: {self.deadline.strftime('%A %d/%m/%Y %H:%M')})")
+        #return str(num) + ". "+ f"[{self.label}][{self.get_status_icon()}] {self.description} (by: {self.deadline.strftime('%A %d/%m/%Y %H:%M')})"
+        return ("Deadline", str(num), self.label, self.get_status_icon(), self.description, f"(by: {self.deadline.strftime('%A %d/%m/%Y %H:%M')})")
     def get_deadline(self):
         return self.deadline
 
@@ -48,7 +49,8 @@ class Event(Task):
         self.label = 'E'
     def showTask(self, num):
         """Prints out the task description and whether it is done"""
-        print(str(num), f"[{self.label}][{self.get_status_icon()}] {self.description} (at: {self.datetime})")
+        #return (str(num) + ". " + f"[{self.label}][{self.get_status_icon()}] {self.description} (at: {self.datetime})")
+        return ("Event", str(num), self.label, self.get_status_icon(), self.description, self.datetime)
     def get_datetime(self):
         return self.datetime
 
