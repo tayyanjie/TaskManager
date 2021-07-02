@@ -1,6 +1,7 @@
 import tasks_flask as tasks
 import re
 from os import listdir
+import pickle
 
 class UI:
     def __init__(self) -> None:
@@ -13,67 +14,24 @@ class UI:
         # Check commands.txt is in directory and prints out all available commands on startup
         if 'commands.txt' in listdir():
             with open('commands.txt') as f:
-                lines = f.readlines()
-            for line in lines:
-                self.commands += line
+                self.commands = f.readlines()
         else:
             raise Exception("commands.txt not found in directory.")
-        print(self.commands)
 
         # Checks for an existing data file and loads it if present
-        if 'task.txt' in listdir():
-            with open('task.txt') as f:
-                contents = f.readlines()
-            for task in contents:
-                task = task.split(', ')
-                description = re.sub("\n","", task[2])
-                done = bool(int(task[1]))
-                self.num_done = self.num_done + 1 if done else self.num_done
-                self.total_tasks += 1
-                if task[0] == 'T':
-                    t = tasks.ToDo(description)
-                    t.isDone = True if done == 1 else False
-                    self.task_list['ToDo'].append(t)
-                elif task[0] == 'D':
-                    d = tasks.Deadline(description, re.sub("\n","", task[3]))
-                    d.isDone = True if done == 1 else False
-                    self.task_list['Deadline'].append(d)
-                else:
-                    e = tasks.Event(description, re.sub("\n","", task[3]))
-                    e.isDone = True if done == 1 else False
-                    self.task_list['Event'].append(e)
-            print("Saved file loaded.")
-            self.get_summary()
-            print(25*'-')
+        if 'data.p' in listdir():
+            with open('data.p', 'rb') as f:
+                self.task_list = pickle.load(f)
+            
         
     def save(self):
         """Saves the tasks added into a .txt file"""
         self.saved = True
-        lst = []
-        for task_type in self.task_list.keys():
-            for task in self.task_list[task_type]:
-                done = 1 if task.done() else 0
-                if isinstance(task, tasks.ToDo):
-                    lst.append('\nT, '+str(done) + ', ' + task.get_description())
-                elif isinstance(task, tasks.Deadline):
-                    lst.append('\nD, ' + str(done) + ', ' + task.get_description() + ', ' + 
-                    task.get_deadline().strftime('%d/%m/%Y %H:%M'))
-                else:
-                    lst.append('\nE, ' + str(done) + ', ' + task.get_description() + ', ' + task.get_datetime())
+        with open('data.p', 'wb') as fp:
+            pickle.dump(self.task_list, fp, protocol=pickle.HIGHEST_PROTOCOL)
         
-        # removes the \n character for the first entry so that first line would not be empty
-        if len(lst) > 0:
-            lst[0] = lst[0][1:]
-
-        # Overwrites the original txt file with the current data if task.txt is present
-        if 'task.txt' in listdir():
-            f = open('task.txt', 'w')
-            f.writelines(lst)
-        # Otherwise create a new txt file and save the data in that file
-        else:
-            f = open('task.txt', 'x')
-            f.writelines(lst)
-        
+    def get_commands(self):
+        return self.commands
 
     def welcome(self):
         """Prints out initial welcome message when the app is launched"""
@@ -185,7 +143,6 @@ class UI:
     def delete_all(self, task_type):
         for type in self.task_list:
             self.task_list[type] = []
-        self.save = False
         return f"Deleted {task_type} tasks."
     
     def get_summary(self):
