@@ -64,7 +64,7 @@ class UI:
         return res
 
 
-    def add(self, description, type = "Task", deadline=None):
+    def add(self, description, type = "Task", deadline=None, start=None, end=None):
         """Adds a task with description"""
         if type not in ['Task', 'ToDo', 'Deadline', 'Event']:
             return 'Invalid task type added.'
@@ -88,9 +88,9 @@ class UI:
                 return "Invalid format added"
             
         # Check for Event
-        elif type == "Event" and deadline != None:
+        elif type == "Event" and start != None and end != None:
             try:
-                self.task_list['Event'].append(tasks.Event(description, deadline))
+                self.task_list['Event'].append(tasks.Event(description, start, end))
                 self.saved = False
             except:
                 return "Invalid format added"

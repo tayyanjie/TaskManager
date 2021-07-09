@@ -60,7 +60,7 @@
             No {{task_type}} available.
         {% else %}
             {% for task in dict_item[task_type] %}
-                {{task[1]}}. [{{task[2]}}] {{task[3]}} {{task[4]}} {{task[5]}}
+                {{task[1]}}. [{{task[2]}}] {{task[3]}} {{task[4]}} {{task[5]}} {{task[6]}}
                 <form method="post">
                     {% set x = task[0] + task[1] %}
                     <input type="submit" name="button" id={{x}} value="done {{x}}">
@@ -86,8 +86,10 @@
             {% else %}
                 Description:
                 <input name="description_Event">
-                Deadline:
-                <input name="deadline_Event"><br>
+                Start:
+                <input name="start_Event">
+                End:
+                <input name="end_Event"><br>
                 <input type="submit", value = "add {{task_type}}" name="add Event">
             {% endif %}
         </form>

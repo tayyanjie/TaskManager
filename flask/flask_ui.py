@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
-import tasks_flask as tasks
 import UI_flask as UI
+
 
 app = Flask(__name__)
 app.secret_key = "a10cs"
@@ -32,7 +32,7 @@ def index():
             dl=request.form['deadline_Deadline'], type="Deadline"))
         elif 'add Event' in request.form:
             return redirect(url_for('add', description=request.form['description_Event'],
-            dl=request.form['deadline_Event'], type="Event"))
+            start=request.form['start_Event'], end=request.form['end_Event'], type="Event"))
     return render_template('todos.html', todos = lst)
 
 
@@ -61,10 +61,11 @@ def add():
         res = ui.add(description,"ToDo")
     elif request.args['type'] == 'Deadline':
         deadline = request.args['dl']
-        res = (ui.add(description, "Deadline", deadline))
+        res = (ui.add(description, "Deadline", deadline=deadline))
     elif request.args['type'] == 'Event':
-        deadline = request.args['dl']
-        res = (ui.add(description, "Event", deadline))
+        start = request.args['start']
+        end = request.args['end']
+        res = (ui.add(description, "Event", start=start, end=end))
     if res == "Invalid format added":
         flash("Invalid format added", "error")
     elif res == "Invalid task added.":
@@ -112,8 +113,6 @@ def reset():
     flash("Resetted!", "alert")
     return redirect('/')
 
-#@app.route('/add')
-#def add():
     
 
 @app.route('/json')

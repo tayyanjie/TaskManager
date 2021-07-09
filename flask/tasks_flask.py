@@ -42,15 +42,16 @@ class Deadline(Task):
 
 
 class Event(Task):
-    def __init__(self, description, datetime) -> None:
+    def __init__(self, description, start, end) -> None:
         """datetime must be in the format `yyyy-mm-dd hh:mm:ss`"""
         super().__init__(description)
-        self.datetime = datetime
+        self.start = dt.datetime.strptime(start, '%d/%m/%Y %H:%M')
+        self.end = dt.datetime.strptime(end, '%d/%m/%Y %H:%M')
         self.label = 'E'
     def showTask(self, num):
         """Prints out the task description and whether it is done"""
         #return (str(num) + ". " + f"[{self.label}][{self.get_status_icon()}] {self.description} (at: {self.datetime})")
-        return ("Event", str(num), self.label, self.get_status_icon(), self.description, self.datetime)
+        return ("Event", str(num), self.label, self.get_status_icon(), self.description, f"start: {self.start.strftime('%A %d/%m/%Y %H:%M')}", f"end: {self.end.strftime('%A %d/%m/%Y %H:%M')}")
     def get_datetime(self):
         return self.datetime
 
