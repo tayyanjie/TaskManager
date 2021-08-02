@@ -125,4 +125,4 @@ def background_process_test():
     return "nothing"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

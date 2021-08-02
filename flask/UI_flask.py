@@ -12,22 +12,20 @@ class UI:
         self.saved = True
 
         # Check commands.txt is in directory and prints out all available commands on startup
-        if 'commands.txt' in listdir():
-            with open('commands.txt') as f:
-                self.commands = f.readlines()
+        with open('data/commands.txt') as f:
+            self.commands = f.readlines()
         else:
             raise Exception("commands.txt not found in directory.")
 
         # Checks for an existing data file and loads it if present
-        if 'data.p' in listdir():
-            with open('data.p', 'rb') as f:
-                self.task_list = pickle.load(f)
+        with open('data/data.p', 'rb') as f:
+            self.task_list = pickle.load(f)
             
         
     def save(self):
         """Saves the tasks added into a .txt file"""
         self.saved = True
-        with open('data.p', 'wb') as fp:
+        with open('data/data.p', 'wb') as fp:
             pickle.dump(self.task_list, fp, protocol=pickle.HIGHEST_PROTOCOL)
         
     def get_commands(self):
